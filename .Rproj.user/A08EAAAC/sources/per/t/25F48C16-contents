@@ -1,0 +1,115 @@
+library(gapminder) # load the csv data
+library(tidyverse) # library that includes both ggplot & dpylr
+library(readxl) # loading excel data
+
+# filtering verb (based on condition)
+gapminder %>%
+  filter(year == 2007)
+
+# arrange verb (sorting)
+gapminder %>%
+  arrange(desc(gdpPercap))
+
+# combining the filter and arrange
+gapminder %>%
+  filter(year == 2007) %>%
+  arrange(desc(gdpPercap))
+
+# mutate verb (for data processing)
+gapminder %>%
+  mutate(pop = pop / 1000000)
+
+# mutate to add a new variable
+gapminder %>%
+  mutate(gdp = gdpPercap * pop)
+
+# combination of all verb for robust data analysis
+gapminder %>%
+  mutate(gdp = gdpPercap * pop) %>%
+  filter(year == 2007) %>%
+  arrange(desc(gdp))
+
+gapminder %>%
+  mutate(lifeExpMonth = 12 * lifeExp)
+
+
+# --Data Visualizations with ggplot2--
+# fetch the data from 2007
+gapminder_1952 <- gapminder %>%
+  filter(year == 1952)
+
+head(gapminder_2007)
+
+# scatterplot function
+
+plot_scatter <- function(data, x, y, c, s) {
+  ggplot(data, aes({{x}}, {{y}}, color={{c}}, size={{s}})) +
+    geom_point() + scale_x_log10()
+}
+
+plot_faceting <- function(data, x, y) {
+  ggplot(data, aes({{x}}, {{y}})) + 
+    geom_point() + scale_x_log10() +
+    facet_wrap(~ continent)
+}
+
+plot_scatter(gapminder_1952, gdpPercap, lifeExp, continent, pop)
+plot_faceting(gapminder_1952, gdpPercap, lifeExp)
+
+
+# Data Analysis by Summarization using summarize verb
+gapminder %>%
+  filter(year == 2007) %>%
+  summarize(meanLifeExp = mean(lifeExp), totalPop = sum(pop))
+
+# Data Analysis by grouping by
+gapminder %>%
+  group_by(year) %>%
+  summarize(meanLifeExp = mean(lifeExp), totalPop = sum(pop))
+
+gapminder %>% 
+  filter(year == 2007) %>%
+  group_by(continent) %>%
+  summarize(meanLifeExp = mean(lifeExp), totalPop = sum(pop))
+
+gapminder %>%
+  group_by(year, continent) %>%
+  summarize(meanLifeExp = mean(lifeExp), totalPop = sum(pop))
+
+# Data Visualization through summarized data
+by_year_continent <- gapminder %>%
+  group_by(year, continent) %>%
+  summarize(totalPop = sum(pop), meanLifeExp = mean(lifeExp))
+
+ggplot(by_year_continent, aes(year, totalPop, color=continent)) + 
+  geom_line() + expand_limits(y=0)
+
+by_continent_2007 <- gapminder %>%
+  filter(year == 2007) %>%
+  group_by(continent) %>%
+  summarize(medianLifeExp = median(lifeExp), medianGdpPercap = median(gdpPercap))
+
+ggplot(by_continent_2007, aes(medianGdpPercap, medianLifeExp, color=continent)) + 
+  geom_point() + expand_limits(y=0)
+
+by_year_all <- gapminder %>%
+  group_by(year, continent) %>%
+  summarize(medianGdpPercap = median(gdpPercap))
+
+ggplot(by_year_all, aes(year, medianGdpPercap, color=continent)) +
+  geom_line() + expand_limits(y=0)
+
+by_continent <- gapminder %>%
+  filter(year == 2007) %>%
+  group_by(continent) %>%
+  summarize(meanLifeExp = mean(lifeExp))
+
+ggplot(by_continent, aes(continent, meanLifeExp)) +
+  geom_col()
+
+ggplot(gapminder, aes(pop)) +
+  geom_histogram(fill = "skyblue", color="white") + scale_x_log10()
+
+ggplot(gapminder, aes(continent, gdpPercap)) + 
+  geom_boxplot(fill="skyblue") + scale_y_log10()
+  

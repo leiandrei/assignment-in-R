@@ -1,0 +1,53 @@
+library(tidyverse) # library that includes both ggplot & dplyr
+library(readxl) # loading excel data
+
+# --This section is for function for data visualizations--
+# a function that plots a scatter plot
+plt_scatter <- function(data, x, y, title) {
+  ggplot(data, aes({{x}}, {{y}})) +
+    geom_point(fill="skyblue") + ggtitle(title)
+}
+
+# a function that plots a bar graph
+plt_bar <- function(data, x, y, title) {
+  ggplot(data, aes({{x}}, {{y}})) +
+    geom_col(fill="skyblue", color="black", alpha=0.7) + ggtitle(title)
+}
+
+# a function that plots a histogram
+plt_hist <- function(data, x, title) {
+  ggplot(data, aes({{x}})) +
+    geom_histogram(fill="skyblue", color="white") + scale_x_log10() + ggtitle(title)
+}
+
+plt_boxplot <- function(data, x, y, title) {
+  ggplot(data, aes({{x}}, {{y}})) + 
+    geom_boxplot(fill="skyblue") + scale_y_log10() + ggtitle(title)
+}
+
+# a function that plots a line plot
+plt_line <- function(data, x, y, title) {
+  ggplot(data, aes({{x}}, {{y}})) + 
+    geom_line(fill="skyblue") + expand_limits(y=0) + ggtitle(title)
+}
+
+# load the data from the directory
+df <- read_excel("German Credit Risk.xlsx")
+
+# load the first 5 rows of data to examine
+head(df)
+
+# --This section is for actual data analysis
+# grouping by sex per total credit amount
+total_cred_amount <- df %>% 
+  group_by(Sex) %>%
+  summarize(Total_Credit_Amount = sum(Credit_amount)) %>%
+  arrange(desc(Total_Credit_Amount))
+
+# standardize the labels in sex category
+sex_cat = c("Female", "Male")
+total_cred_amount$Sex <- factor(total_cred_amount$Sex, labels=sex_cat)
+total_cred_amount 
+
+plt_bar(total_cred_amount, Sex, Total_Credit_Amount, "Total Credit Amount per Sex Category")
+
