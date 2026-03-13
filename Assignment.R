@@ -69,6 +69,12 @@ avg_duration_age <- df %>%
   summarize(meanDuration = mean(Duration)) %>%
   arrange(Age)
 
+avg_cred_amount_saving <- df %>%
+  filter(Saving_accounts != "NA") %>%
+  group_by(Saving_accounts) %>%
+  summarize(meanCredAmount = mean(Credit_amount)) %>%
+  arrange(desc(meanCredAmount))
+
 avg_duration_job # in average, the highly skilled jobs have higher credit duration
 # standardize the labels in sex category
 sex_cat = c("Female", "Male")
@@ -90,6 +96,8 @@ plt_bar(df_plot, Account_Type, Count, "Frequency of Checking Accounts")
 plt_bar(total_cred_amount, Sex, Total_Credit_Amount, "Total Credit Amount per Sex Category")
 
 plt_bar(avg_duration_job, Job, meanDuration, "Average Credit Duration per Job Category")
+
+plt_bar(avg_cred_amount_saving, Saving_accounts, meanCredAmount, "Average Credit Amount by Saving Accounts Category")
 
 # on the histplot, the frequency shows that highest values sit around in between 1000 and 3000
 plt_hist(df, Credit_amount, "Credit Amount Distribution")
