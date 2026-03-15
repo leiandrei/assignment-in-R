@@ -120,7 +120,7 @@ plt_hist(df, Duration, "Duration of Credit Amounts")
 
 # correlation across values, shows that duration & credit amount are the only values that
 # has moderarely strong positive correlation between them
-ggcorrplot(cor(df[sapply(df, is.numeric)]), lab = TR patch-1
+ggcorrplot(cor(df[sapply(df, is.numeric)]), lab = TRUE)
 # Analysis: Duration vs Credit Amount shows a clear upward trend where larger credit 
 # requests naturally result in longer repayment periods. This helps the bank manage 
 # risk by spreading out the repayment of high-value loans over more ti
