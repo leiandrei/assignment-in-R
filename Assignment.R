@@ -76,7 +76,8 @@ avg_cred_amount_saving <- df %>%
   summarize(meanCredAmount = mean(Credit_amount)) %>%
   arrange(desc(meanCredAmount))
 
-avg_duration_job # in average, the highly skilled jobs have higher credit duration
+avg_duration_job 
+# in average, the highly skilled jobs have higher credit duration
 # standardize the labels in sex category
 sex_cat = c("Female", "Male")
 total_cred_amount$Sex <- factor(total_cred_amount$Sex, labels=sex_cat)
@@ -95,21 +96,26 @@ colnames(df_plot) <- c("Account_Type", "Count")
 # Analysis: Frequency of Checking Accounts displays that the majority of applicants have 'little' or 
 # 'moderate' balances. This suggests that the bank's primary customer base consists of individuals 
 # with limited immediate cash who rely on credit for their financial needs.
+
 plt_bar(df_plot, Account_Type, Count, "Frequency of Checking Accounts")
 
 # Analysis: Total Credit Amount per Sex Category indicates that Male applicants 
 # account for a significantly higher volume of total credit issued compared to Female 
 # applicants, more than doubling their total credit footprint.
+
 plt_bar(total_cred_amount, Sex, Total_Credit_Amount, "Total Credit Amount per Sex Category")
+
 # Analysis: Average Credit Duration per Job Category presents that 'highly skilled' workers (Job 3) 
 # have the longest repayment periods. The bank is more comfortable granting long-term 
-# credit to professionals with higher earning potential and job stabi
-# plaverage credit duration per job catemain
+# credit to professionals with higher earning potential and job stability
+# average credit duration per job category
+
 plt_bar(avg_duration_job, Job, meanDuration, "Average Credit Duration per Job Category")
 
 # Analysis: Average Credit Amount per Savings Account Category shows that 
 # 'moderate' savers have the highest mean credit, while 'quite rich' and 
 # 'rich' categories surprisingly tend to have lower average borrowing.
+
 plt_bar(avg_cred_amount_saving, Saving_accounts, meanCredAmount, "Average Credit Amount per Savings Account Category")
 
 # on the histplot, the frequency shows that highest values sit around in between 1000 and 3000
@@ -121,13 +127,16 @@ plt_hist(df, Duration, "Duration of Credit Amounts")
 # correlation across values, shows that duration & credit amount are the only values that
 # has moderarely strong positive correlation between them
 ggcorrplot(cor(df[sapply(df, is.numeric)]), lab = TRUE)
+
 # Analysis: Duration vs Credit Amount shows a clear upward trend where larger credit 
 # requests naturally result in longer repayment periods. This helps the bank manage 
 # risk by spreading out the repayment of high-value loans over more ti
-# plot the scatter plot of duration vs credit amoumain
+# plot the scatter plot of duration vs credit amount
+
 plt_scatter(df, Duration, Credit_amount, "Duration vs Credit Amount")
 
 # Analysis: Average Credit Duration by Age shows significant fluctuations 
 # across different age groups, with peak average durations occurring around age 58, 
 # while younger and much older applicants tend to have lower average durations.
+
 plt_line(avg_duration_age, Age, meanDuration, "Average Credit Duration by Age")
