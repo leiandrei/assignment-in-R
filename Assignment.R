@@ -24,6 +24,7 @@ plt_hist <- function(data, x, title) {
     theme_minimal()
 }
 
+# a function that plots a boxplot
 plt_boxplot <- function(data, x, y, title) {
   ggplot(data, aes({{x}}, {{y}})) + 
     geom_boxplot(fill="skyblue") + scale_y_log10() + ggtitle(title) +
@@ -99,11 +100,11 @@ plt_bar(df_plot, Account_Type, Count, "Frequency of Checking Accounts")
 # Analysis: Total Credit Amount per Sex Category indicates that Male applicants 
 # account for a significantly higher volume of total credit issued compared to Female 
 # applicants, more than doubling their total credit footprint.
-plt_bar(total_cred_amount, Sex, Total_Credit_Amount, "Total Credit Amount per Sex Category")
-
+plt_bar(total_cred_amount, Sex, Total_Credit_Amount, "Total Credit Amount per Sex Category")patch-1
 # Analysis: Average Credit Duration per Job Category presents that 'highly skilled' workers (Job 3) 
 # have the longest repayment periods. The bank is more comfortable granting long-term 
-# credit to professionals with higher earning potential and job stability.
+# credit to professionals with higher earning potential and job stabi
+# plaverage credit duration per job catemain
 plt_bar(avg_duration_job, Job, meanDuration, "Average Credit Duration per Job Category")
 
 # Analysis: Average Credit Amount per Savings Account Category shows that 
@@ -119,11 +120,11 @@ plt_hist(df, Duration, "Duration of Credit Amounts")
 
 # correlation across values, shows that duration & credit amount are the only values that
 # has moderarely strong positive correlation between them
-ggcorrplot(cor(df[sapply(df, is.numeric)]), lab = TRUE)
-
+ggcorrplot(cor(df[sapply(df, is.numeric)]), lab = TR patch-1
 # Analysis: Duration vs Credit Amount shows a clear upward trend where larger credit 
 # requests naturally result in longer repayment periods. This helps the bank manage 
-# risk by spreading out the repayment of high-value loans over more time.
+# risk by spreading out the repayment of high-value loans over more ti
+# plot the scatter plot of duration vs credit amoumain
 plt_scatter(df, Duration, Credit_amount, "Duration vs Credit Amount")
 
 # Analysis: Average Credit Duration by Age shows significant fluctuations 
