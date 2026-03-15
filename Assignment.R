@@ -100,7 +100,7 @@ plt_bar(df_plot, Account_Type, Count, "Frequency of Checking Accounts")
 # Analysis: Total Credit Amount per Sex Category indicates that Male applicants 
 # account for a significantly higher volume of total credit issued compared to Female 
 # applicants, more than doubling their total credit footprint.
-plt_bar(total_cred_amount, Sex, Total_Credit_Amount, "Total Credit Amount per Sex Category")patch-1
+plt_bar(total_cred_amount, Sex, Total_Credit_Amount, "Total Credit Amount per Sex Category")
 # Analysis: Average Credit Duration per Job Category presents that 'highly skilled' workers (Job 3) 
 # have the longest repayment periods. The bank is more comfortable granting long-term 
 # credit to professionals with higher earning potential and job stabi
