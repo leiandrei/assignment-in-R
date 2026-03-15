@@ -33,7 +33,7 @@ plt_boxplot <- function(data, x, y, title) {
 # a function that plots a line plot
 plt_line <- function(data, x, y, title) {
   ggplot(data, aes({{x}}, {{y}})) + 
-    geom_line() + expand_limits(y=0) + ggtitle +
+    geom_line(color="skyblue") + expand_limits(y=0) + ggtitle(title) +
     theme_minimal()
 }
 
@@ -52,7 +52,7 @@ table_1 <- df %>%
   group_by(Sex, Purpose) %>%
   summarize(totalCredamount = sum(Credit_amount)) %>%
   pivot_wider(names_from = Purpose, values_from = totalCredamount)
-  
+
 # grouping by sex per total credit amount
 total_cred_amount <- df %>% 
   group_by(Sex) %>%
@@ -63,6 +63,17 @@ avg_duration_job <- df %>%
   group_by(Job) %>% 
   summarize(meanDuration = mean(Duration)) %>%
   arrange(desc(meanDuration))
+
+avg_duration_age <- df %>%
+  group_by(Age) %>%
+  summarize(meanDuration = mean(Duration)) %>%
+  arrange(Age)
+
+avg_cred_amount_saving <- df %>%
+  filter(Saving_accounts != "NA") %>%
+  group_by(Saving_accounts) %>%
+  summarize(meanCredAmount = mean(Credit_amount)) %>%
+  arrange(desc(meanCredAmount))
 
 avg_duration_job # in average, the highly skilled jobs have higher credit duration
 # standardize the labels in sex category
@@ -82,9 +93,17 @@ colnames(df_plot) <- c("Account_Type", "Count")
 
 plt_bar(df_plot, Account_Type, Count, "Frequency of Checking Accounts")
 
+# Analysis: Total Credit Amount per Sex Category indicates that Male applicants 
+# account for a significantly higher volume of total credit issued compared to Female 
+# applicants, more than doubling their total credit footprint.
 plt_bar(total_cred_amount, Sex, Total_Credit_Amount, "Total Credit Amount per Sex Category")
 
 plt_bar(avg_duration_job, Job, meanDuration, "Average Credit Duration per Job Category")
+
+# Analysis: Average Credit Amount per Savings Account Category shows that 
+# 'moderate' savers have the highest mean credit, while 'quite rich' and 
+# 'rich' categories surprisingly tend to have lower average borrowing.
+plt_bar(avg_cred_amount_saving, Saving_accounts, meanCredAmount, "Average Credit Amount per Savings Account Category")
 
 # on the histplot, the frequency shows that highest values sit around in between 1000 and 3000
 plt_hist(df, Credit_amount, "Credit Amount Distribution")
@@ -97,3 +116,8 @@ plt_hist(df, Duration, "Duration of Credit Amounts")
 ggcorrplot(cor(df[sapply(df, is.numeric)]), lab = TRUE)
 
 plt_scatter(df, Duration, Credit_amount, "Duration vs Credit Amount")
+
+# Analysis: Average Credit Duration by Age shows significant fluctuations 
+# across different age groups, with peak average durations occurring around age 58, 
+# while younger and much older applicants tend to have lower average durations.
+plt_line(avg_duration_age, Age, meanDuration, "Average Credit Duration by Age")
